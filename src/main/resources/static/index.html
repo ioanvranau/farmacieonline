@@ -1,0 +1,331 @@
+<!doctype html>
+<html ng-app="Pharmacy">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>
+        Pharma
+    </title>
+
+    <style type="text/css">
+        a[ ng-click ] {
+            color: #FF00CC;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+
+    <link data-require="bootstrap-css@3.2.0" data-semver="3.2.0" rel="stylesheet"
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+    <!--<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="style.css"/>
+    <link href="bower_components/angular-jk-rating-stars/jk-rating-stars.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="style.css"></script>
+
+</head>
+<body ng-controller="DemoController">
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Farmacie</span>
+        </div>
+    </header>
+    </header>
+    <main class="mdl-layout__content">
+        <md-tabs md-dynamic-height md-border-bottom md-selected="1">
+            <md-tab label="Angajati">
+                <md-content class="md-padding">
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" border="2">
+                        <thead>
+                        <tr>
+                            <th>Nume angajat</th>
+                            <th>Prenume</th>
+                            <th>Cnp</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="employee in employees">
+                            <td class="mdl-data-table__cell--non-numeric">{{ employee.name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ employee.surname }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ employee.cnp }}</td>
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="removeEmployee( employee )">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                    <md-divider></md-divider>
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <tr>
+                            <td>
+                                <md-input-container>
+                                    <label>Nume Angajat</label>
+                                    <input type="text" ng-model="newEmployee.name">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-input-container>
+                                    <label>Surname</label>
+                                    <input type="text" ng-model="newEmployee.surname">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-input-container>
+                                    <label>Cnp Angajat</label>
+                                    <input type="number" ng-model="newEmployee.cnp">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="addEmployee()">
+                                    <i class="material-icons">add</i>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </table>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Medicamente">
+                <md-content class="md-padding">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" border="2">
+                        <thead>
+                        <tr>
+                            <th>Nume Medicament</th>
+                            <th>Pret</th>
+                            <th>Cantitate</th>
+                            <th>Delete</th>
+                            <th>Comments</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="medicament in medicaments">
+                            <td class="mdl-data-table__cell--non-numeric">{{ medicament.name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ medicament.price }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ medicament.quantity }}</td>
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="removeMedicament( medicament )">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                            </td>
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="showAddNewCommentPrompt($event, medicament)">
+                                    <i class="material-icons">comment</i>
+                                </md-button>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                   <md-divider></md-divider>
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <tr>
+                            <td>
+                                <md-input-container>
+                                    <label>Nume Medicament</label>
+                                    <input type="text" ng-model="newMedicament.name">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-input-container>
+                                    <label>Pret</label>
+                                    <input type="number" ng-model="newMedicament.price">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-input-container>
+                                    <label>Cantitate</label>
+                                    <input type="number" ng-model="newMedicament.quantity">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="addMedicament()">
+                                    <i class="material-icons">add</i>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </table> 
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Retete">
+                <md-content class="md-padding">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" border="2">
+                        <thead>
+                        <tr>
+                            <th>Nume Pacient</th>
+                            <th>CNP Pacient</th>
+                            <th>Data eliberarii</th>
+                            <th>Medicamente</th>
+                            <th>Angajat</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="prescription in recipes">
+                            <td class="mdl-data-table__cell--non-numeric">{{prescription.name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ prescription.cnp }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{prescription.date}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <md-input-container>
+                                    <label></label>
+                                    <md-chips ng-model="prescription.medicaments" md-autocomplete-snap readonly="true"
+                                              md-removable="false" md-require-match
+                                              class="custom-chips">
+                                        <md-autocomplete md-min-length="0"
+                                                         md-no-cache="true"
+                                                         md-selected-item="selectedItem"
+                                                         md-search-text="searchText"
+                                                         md-items="item in querySearch(searchText)"
+                                                         md-item-text="item.name"
+                                                         placeholder="Search for medicament">
+                                            <span md-highlight-text="searchText">{{item.name}} </span>
+                                        </md-autocomplete>
+
+                                        <md-chip-template>
+                                            <span><strong>{{$chip.name}}</strong></span>
+                                        </md-chip-template>
+
+                                        <!--Not deletable for the moment-->
+                                        <!--<md-button-->
+                                                <!--class="mdl-button mdl-js-button mdl-button&#45;&#45;fab md-primary vegetablechip">-->
+                                            <!--<i class="material-icons">delete</i>-->
+                                        <!--</md-button>-->
+                                    </md-chips>
+                                </md-input-container>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{prescription.employee.name}}</td>
+
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="removeRecipe(prescription)">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Reteta noua">
+                <md-content class="md-padding">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <tr>
+                            <td><p>Introduceti datele retetei mai jos</p></td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                                <md-input-container>
+                                    <label>Nume pacient</label>
+                                    <input type="text" ng-model="newRecipe.pacientName">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <md-input-container>
+                                    <label>Cnp Pacient</label>
+                                    <input type="number" ng-model="newRecipe.cnpPacient">
+                                </md-input-container>
+
+                            </td>
+                            <td>
+                                <md-datepicker ng-model="newRecipe.date"
+                                               md-placeholder="Enter date"></md-datepicker>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <md-input-container>
+                                    <label></label>
+                                    <md-chips ng-model="newRecipe.medicaments" md-autocomplete-snap readonly="false"
+                                              md-removable="true" md-require-match
+                                              class="custom-chips">
+                                        <md-autocomplete md-min-length="0"
+                                                         md-no-cache="true"
+                                                         md-selected-item="selectedItem"
+                                                         md-search-text="searchText"
+                                                         md-items="item in querySearch(searchText)"
+                                                         md-item-text="item.name"
+                                                         placeholder="Search for medicament">
+                                            <span md-highlight-text="searchText">{{item.name}} </span>
+                                        </md-autocomplete>
+
+                                        <md-chip-template>
+                                            <span><strong>{{$chip.name}}</strong></span>
+                                        </md-chip-template>
+                                        <md-button
+                                                class="mdl-button mdl-js-button mdl-button--fab md-primary vegetablechip">
+                                            <i class="material-icons">delete</i>
+                                        </md-button>
+                                    </md-chips>
+                                </md-input-container>
+                            </td>
+
+
+                            <td>
+                                <md-input-container>
+                                    <label>Angajat</label>
+                                    <md-select ng-model="newRecipe.employee">
+                                        <md-option><em>None</em></md-option>
+                                        <md-option ng-repeat="employee in employees" ng-value="employee">
+                                            {{employee.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </td>
+
+                            <td>
+                                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                           ng-click="addRecipe('3')">
+                                    <i class="material-icons">add</i>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </table>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </main>
+</div>
+
+
+<!-- Initialize scripts. -->
+<script type="text/javascript" src="jquery/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="index.js"></script>
+<script src="bower_components/angular-jk-rating-stars/jk-rating-stars.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+<!-- Angular Material Library -->
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+
+</body>
+</html>

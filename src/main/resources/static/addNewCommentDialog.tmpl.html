@@ -1,0 +1,103 @@
+<md-dialog aria-label="Add new device" ng-cloak>
+    <form>
+        <md-toolbar style="margin-bottom: 20px;">
+            <div class="md-toolbar-tools">
+                <h2>Comments for medicament: {{medicamentForDialog.name}}</h2>
+                <span flex></span>
+
+                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                           ng-click="refresh()">Refresh
+                </md-button>
+
+                <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                           ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+
+
+        <md-dialog-content>
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" border="2">
+                <thead>
+                <tr>
+                    <th>Comment</th>
+                    <th>Likes</th>
+                    <th>Dislikes</th>
+                    <th>Rating</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="comment in medicamentForDialog.comments">
+                    <td class="mdl-data-table__cell--non-numeric">{{ comment.text }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{ comment.likes }}
+                        <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                   ng-click="increaseLike(comment)">
+                            <i class="material-icons">thumb_up</i>
+                        </md-button>
+                    </td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{ comment.dislikes }}
+                        <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                   ng-click="increaseDislike(comment)">
+                            <i class="material-icons">thumb_down</i>
+                        </md-button>
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <md-input-container>
+                            <jk-rating-stars rating="comment.rating" read-only="true"></jk-rating-stars>
+                            <div style="width: 100px">{{comment.rating}} Stars</div>
+                        </md-input-container>
+                    </td>
+                    <td>
+                        <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                   ng-click="removeComment( comment )">
+                            <i class="material-icons">delete</i>
+                        </md-button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-dialog-content>
+
+        <md-dialog-content layout-gt-sm="column" layout-padding>
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <tr>
+                    <td>
+                        <md-input-container>
+                            <label>Comment</label>
+                            <input type="text" ng-model="newComment.text">
+                        </md-input-container>
+                    </td>
+                    <td>
+                        <md-input-container>
+                            <jk-rating-stars rating="newComment.rating"></jk-rating-stars>
+                            <div style="width: 100px">{{newComment.rating}} Stars</div>
+                        </md-input-container>
+                    </td>
+                    <td>
+                        <md-button class="mdl-button mdl-js-button mdl-button--fab"
+                                   ng-click="addComment()">
+                            <i class="material-icons">add</i>
+                        </md-button>
+                    </td>
+                </tr>
+            </table>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="answer()" style="margin-right:20px;">
+                OK
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

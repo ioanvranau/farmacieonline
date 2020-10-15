@@ -1,0 +1,20 @@
+{
+  "name": "static",
+  "main": "index.js",
+  "authors": [
+    "Nadia"
+  ],
+  "description": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-design-lite": "^1.2.1"
+  }
+}
